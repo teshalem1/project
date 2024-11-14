@@ -15,10 +15,10 @@ library(tidyverse)
 #game_data <- read_csv("BGGdata.csv", show_col_types = FALSE) 
 game_data <- read_csv("bgg_db_2017_04.csv/bgg_db_2017_04.csv")
 board_game <- read.csv("board_game_popularity_over_years.csv") 
-artists_reduced <- read.csv("artists_reduced.csv/artists_reduced.csv") 
+#artists_reduced <- read.csv("artists_reduced.csv/artists_reduced.csv") 
 glimpse(game_data) 
 glimpse(board_game) 
-glimpse(artists_reduced)
+#glimpse(artists_reduced)
 
 ```
 # the populartiy of the game over a year
