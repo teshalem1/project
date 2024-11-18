@@ -1,0 +1,155 @@
+---
+title: "Project"
+author: "Teshale"
+date: "`r Sys.Date()`"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+```
+
+# Introduction 
+
+* This project aims to analyze board game data from BoardGameGeek to uncover insights regarding game popularity, player preferences, and trends. By understanding these patterns, we can identify what makes a board game successful and how preferences have evolved over the years. 
+* As the popularity of board games grows, there is a need to understand the factors that contribute to their success. This analysis seeks to uncover the patterns and trends in board game data, focusing on ratings, player count, and categories. 
+* We will use data from BoardGameGeek, including game ratings, categories, mechanics, and publication years. The analysis will involve data cleaning, exploratory data analysis (EDA), and visualization techniques to derive meaningful insights. 
+* The findings from this analysis can help game designers, publishers, and enthusiasts understand what makes a board game popular and how player preferences have changed over time.
+
+# Data 
+
+```{r}
+library(tidyverse) 
+#game_data <- read_csv("BGGdata.csv", show_col_types = FALSE) 
+game_data <- read_csv("bgg_db_2017_04.csv/bgg_db_2017_04.csv")
+board_game <- read.csv("board_game_popularity_over_years.csv") 
+#artists_reduced <- read.csv("project/artists_reduced.csv/artists_reduced.csv") 
+glimpse(game_data) 
+glimpse(board_game) 
+#glimpse(artists_reduced)
+
+```
+
+# the populartiy of the game over a year
+
+```{r}
+board_game %>% ggplot(aes(x = yearpublished, y = count)) +
+  geom_line() +
+  labs(title = "Popularity of Games Over the Years", x = "Year Published", y = "Number of Games")
+
+```
+# How many games are in the dataset??
+
+```{r}
+# Count the number of rows (games) in the dataset
+num_games <- nrow(game_data)
+print(paste("Number of games:", num_games))
+
+```
+
+
+# Calculate the average minimum and maximum number of players
+
+```{r}
+average_minplayers <- mean(game_data$minplayers, na.rm = TRUE)
+average_maxplayers <- mean(game_data$maxplayers, na.rm = TRUE)
+print(paste("Average minimum number of players:", average_minplayers))
+print(paste("Average maximum number of players:", average_maxplayers))
+
+```
+# highest-rated board games
+
+```{r}
+
+top_rated_games <- game_data %>%
+  arrange(desc(avg_rating)) %>%
+  select(names, avg_rating) %>%
+  head(10)
+
+top_rated_games
+
+```
+# Plot game ratings by player count
+
+```{r}
+ggplot(game_data, aes(x = factor(min_players), y = avg_rating)) +
+  geom_boxplot() +
+  labs(title = "Game Ratings by Player Count", x = "Minimum Players", y = "Average Rating")
+
+
+```
+# # Scatter plot of player count vs. ratings
+```{r}
+
+ggplot(game_data, aes(x = min_players, y = avg_rating)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Player Count vs. Ratings", x = "Minimum Players", y = "Average Rating")
+
+```
+
+# Identify trends in game publication over the years.
+
+```{r}
+ggplot(board_game, aes(x = yearpublished, y = count)) +
+  geom_col(fill = "blue", color = "black") +
+  labs(title = "Number of Games Published Over Time", x = "Year", y = "Number of Games")
+
+```
+# Calculate key statistics for game ratings, number of votes, and playing times.
+
+```{r}
+summary(game_data)
+
+```
+# Determine the most 10 popular game categories?
+
+```{r}
+
+game_data$category <- as.character(game_data$category)
+count_categories <- function(data) {
+  split_categories <- strsplit(data$category, ", ")
+  categories_list <- unlist(split_categories)
+  categories_df <- data.frame(category = categories_list)
+  
+  # Count the occurrences of each category
+  top_categories <- categories_df %>%
+    count(category, sort = TRUE) %>%
+    head(10)
+  
+  return(top_categories)
+}
+top_categories <- count_categories(game_data)
+
+print(top_categories)
+
+
+
+```
+
+# Create bar charts to show the popularity of different game categories?
+
+```{r}
+ggplot(top_categories, aes(x = reorder(category, n), y = n)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Top 10 Game Categories", x = "Category", y = "Count") +
+  coord_flip()
+```
+
+
+# Visualize the distribution of game ratings using histograms.
+
+```{r}
+ggplot(game_data, aes(x = avg_rating)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  labs(title = "Distribution of Game Ratings", x = "Average Rating", y = "Frequency")
+
+```
+```{r}
+
+
+```
+
+
