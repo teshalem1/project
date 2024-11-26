@@ -1,9 +1,10 @@
 ---
 title: "Project"
-author: "Teshale"
+author: "Mekonnen Teshale"
 date: "`r Sys.Date()`"
 output: slidy_presentation
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -18,7 +19,17 @@ library(tidyverse)
 * We will use data from BoardGameGeek, including game ratings, categories, mechanics, and publication years. The analysis will involve data cleaning, exploratory data analysis (EDA), and visualization techniques to derive meaningful insights. 
 * The findings from this analysis can help game designers, publishers, and enthusiasts understand what makes a board game popular and how player preferences have changed over time.
 
-# Data 
+# Data Preparation:
+
+* Source: The data was obtained from Kaggle. 
+* (https://www.kaggle.com/code/devisangeetha/insights-geek-board-game/input).
+* Data Explanation: 
+* The data is collected by BoardGameGeek, a popular online database for board games.
+* To provide comprehensive information about board games, including ratings, categories, and mechanics.
+* The dataset includes data up to April 2017.
+* The data may contain missing values and entries that need to be cleaned for accurate analysis.
+
+# Data import
 
 ```{r}
 library(tidyverse) 
@@ -32,36 +43,40 @@ glimpse(board_game)
 
 ```
 
-# the populartiy of the game over a year
+
+
+# Exploratory Data Analysis:
+
+* key statistics for game ratings, number of votes, and playing times.
 
 ```{r}
-board_game %>% ggplot(aes(x = yearpublished, y = count)) +
-  geom_line() +
-  labs(title = "Popularity of Games Over the Years", x = "Year Published", y = "Number of Games")
-
+summary(game_data)
 ```
-# How many games are in the dataset??
 
-```{r}
+# Distribution of Ratings: 
+* Understand the distribution of average ratings to identify common rating patterns.
+
+1, the nunber of games in the dataset.
+
+```{r echo = F, message=T}
 # Count the number of rows (games) in the dataset
 num_games <- nrow(game_data)
 print(paste("Number of games:", num_games))
 
 ```
+2, the average minimum and maximum number of players.
 
-
-# Calculate the average minimum and maximum number of players
-
-```{r}
-average_minplayers <- mean(game_data$minplayers, na.rm = TRUE)
-average_maxplayers <- mean(game_data$maxplayers, na.rm = TRUE)
+```{r echo = F, message=T}
+average_minplayers <- mean(game_data$min_players, na.rm = TRUE)
+average_maxplayers <- mean(game_data$max_players, na.rm = TRUE)
 print(paste("Average minimum number of players:", average_minplayers))
 print(paste("Average maximum number of players:", average_maxplayers))
 
-```
-# highest-rated board games
 
-```{r}
+```
+3, Top 10 highest-rated board games.
+
+```{r echo = F, message=T}
 
 top_rated_games <- game_data %>%
   arrange(desc(avg_rating)) %>%
@@ -71,17 +86,24 @@ top_rated_games <- game_data %>%
 top_rated_games
 
 ```
-# Plot game ratings by player count
 
-```{r}
+# 4, Plotting game ratings by player count.
+
+```{r echo = F, message=T}
 ggplot(game_data, aes(x = factor(min_players), y = avg_rating)) +
   geom_boxplot() +
   labs(title = "Game Ratings by Player Count", x = "Minimum Players", y = "Average Rating")
 
 
 ```
-# # Scatter plot of player count vs. ratings
-```{r}
+
+* Ratings tend to vary with the number of players, showing interesting trends in player preferences.
+
+
+
+# 5, Scatter plot of player count vs. ratings.
+
+```{r echo = F, message=T}
 
 ggplot(game_data, aes(x = min_players, y = avg_rating)) +
   geom_point() +
@@ -90,23 +112,45 @@ ggplot(game_data, aes(x = min_players, y = avg_rating)) +
 
 ```
 
-# Identify trends in game publication over the years.
+* The scatter plot and trend line reveal the correlation between player count and average rating.
 
-```{r}
+
+
+# Publication Trends: 
+* Examine how the number of games published each year has changed over time.
+
+1, the published of the game over a year
+
+```{r echo = F, message=T}
+board_game %>% ggplot(aes(x = yearpublished, y = count)) +
+  geom_line() +
+  labs(title = "Popularity of Games Over the Years", x = "Year Published", y = "Number of Games")
+```
+
+* There is a clear trend in the number of games published over the years.
+
+
+
+# 2, Identify trends in game publication over the years.
+
+```{r echo = F, message=T}
 ggplot(board_game, aes(x = yearpublished, y = count)) +
   geom_col(fill = "blue", color = "black") +
   labs(title = "Number of Games Published Over Time", x = "Year", y = "Number of Games")
 
 ```
-# Calculate key statistics for game ratings, number of votes, and playing times.
 
-```{r}
-summary(game_data)
+* The histogram shows trends and peaks in game publications over time.
 
-```
-# Determine the most 10 popular game categories?
 
-```{r}
+
+
+# Category Breakdown: 
+* Analyze the proportion of different game categories to see which are the most popular.
+
+1, the most 10 popular game categories?
+
+```{r echo = F, message=T}
 
 game_data$category <- as.character(game_data$category)
 count_categories <- function(data) {
@@ -129,27 +173,50 @@ print(top_categories)
 
 ```
 
-# Create bar charts to show the popularity of different game categories?
+# 2, bar charts to show the popularity of different game categories?
 
-```{r}
+```{r echo = F, message=T}
 ggplot(top_categories, aes(x = reorder(category, n), y = n)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(title = "Top 10 Game Categories", x = "Category", y = "Count") +
   coord_flip()
 ```
 
+* Bar charts provide a clear visual representation of the most popular game categories.
 
-# Visualize the distribution of game ratings using histograms.
 
-```{r}
+
+# 3, Visualize the distribution of game ratings using histograms.
+
+```{r echo = F, message=T}
 ggplot(game_data, aes(x = avg_rating)) +
   geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
   labs(title = "Distribution of Game Ratings", x = "Average Rating", y = "Frequency")
 
 ```
-```{r}
+
+* The histogram highlights the distribution of game ratings across the dataset.
 
 
-```
+
+# Summary: 
+
+* This project aimed to analyze board game data to uncover insights into game popularity, player preferences, and trends
+* Using data from BoardGameGeek, we performed data cleaning, exploratory data analysis, and visualization to derive meaningful insights.
+
+  # Key Insights:
+   
+* The popularity of board games has increased over the years.
+* The highest-rated games have distinct characteristics.
+* Certain categories and mechanics are more popular than others.
+* These findings can help game designers, publishers, and enthusiasts understand what makes a board game popular and how player preferences have changed over time.
+* The analysis is based on data up to April 2017, and newer trends may not be reflected. Future analysis could include more recent data.
+
+
+
+# Citations
+
+* Kaggle Dataset:
+* https://www.kaggle.com/code/devisangeetha/insights-geek-board-game/input
 
 
