@@ -11,7 +11,7 @@
 
 <meta name="author" content="Teshale" />
 
-<meta name="date" content="2024-11-18" />
+<meta name="date" content="2024-12-03" />
 
 <title>Project</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Project</h1>
 <h4 class="author">Teshale</h4>
-<h4 class="date">2024-11-18</h4>
+<h4 class="date">2024-12-03</h4>
 
 </div>
 
@@ -413,18 +413,12 @@ print(paste(&quot;Number of games:&quot;, num_games))</code></pre>
 </div>
 <div id="calculate-the-average-minimum-and-maximum-number-of-players" class="section level1">
 <h1>Calculate the average minimum and maximum number of players</h1>
-<pre class="r"><code>average_minplayers &lt;- mean(game_data$minplayers, na.rm = TRUE)</code></pre>
-<pre><code>## Warning: Unknown or uninitialised column: `minplayers`.</code></pre>
-<pre><code>## Warning in mean.default(game_data$minplayers, na.rm = TRUE): argument is not
-## numeric or logical: returning NA</code></pre>
-<pre class="r"><code>average_maxplayers &lt;- mean(game_data$maxplayers, na.rm = TRUE)</code></pre>
-<pre><code>## Warning: Unknown or uninitialised column: `maxplayers`.</code></pre>
-<pre><code>## Warning in mean.default(game_data$maxplayers, na.rm = TRUE): argument is not
-## numeric or logical: returning NA</code></pre>
-<pre class="r"><code>print(paste(&quot;Average minimum number of players:&quot;, average_minplayers))</code></pre>
-<pre><code>## [1] &quot;Average minimum number of players: NA&quot;</code></pre>
+<pre class="r"><code>average_minplayers &lt;- mean(game_data$min_players, na.rm = TRUE)
+average_maxplayers &lt;- mean(game_data$max_players, na.rm = TRUE)
+print(paste(&quot;Average minimum number of players:&quot;, average_minplayers))</code></pre>
+<pre><code>## [1] &quot;Average minimum number of players: 2.03460692138428&quot;</code></pre>
 <pre class="r"><code>print(paste(&quot;Average maximum number of players:&quot;, average_maxplayers))</code></pre>
-<pre><code>## [1] &quot;Average maximum number of players: NA&quot;</code></pre>
+<pre><code>## [1] &quot;Average maximum number of players: 5.2872574514903&quot;</code></pre>
 </div>
 <div id="highest-rated-board-games" class="section level1">
 <h1>highest-rated board games</h1>
