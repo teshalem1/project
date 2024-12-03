@@ -12,7 +12,7 @@ library(tidyverse)
 
 ```
 
-# Introduction 
+# Introduction  
 
 * This project aims to analyze board game data from BoardGameGeek to uncover insights regarding game popularity, player preferences, and trends. By understanding these patterns, we can identify what makes a board game successful and how preferences have evolved over the years. 
 * As the popularity of board games grows, there is a need to understand the factors that contribute to their success. This analysis seeks to uncover the patterns and trends in board game data, focusing on ratings, player count, and categories. 
