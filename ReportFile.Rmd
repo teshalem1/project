@@ -44,10 +44,11 @@ print(paste("Number of games:", num_games))
 # Calculate the average minimum and maximum number of players
 
 ```{r}
-average_minplayers <- mean(game_data$minplayers, na.rm = TRUE)
-average_maxplayers <- mean(game_data$maxplayers, na.rm = TRUE)
+average_minplayers <- mean(game_data$min_players, na.rm = TRUE)
+average_maxplayers <- mean(game_data$max_players, na.rm = TRUE)
 print(paste("Average minimum number of players:", average_minplayers))
 print(paste("Average maximum number of players:", average_maxplayers))
+
 
 ```
 # highest-rated board games
@@ -138,9 +139,6 @@ ggplot(game_data, aes(x = avg_rating)) +
   labs(title = "Distribution of Game Ratings", x = "Average Rating", y = "Frequency")
 
 ```
-```{r}
 
-
-```
 
 
